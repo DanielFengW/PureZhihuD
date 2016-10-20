@@ -88,21 +88,16 @@ public class HtmlUtil {
      * @param newsDetail NewsDetail
      * @return String
      */
-    public static String createHtmlData(NewsDetail newsDetail) {
+    public static String createHtmlData(NewsDetail newsDetail, boolean isNight) {
         final String css = HtmlUtil.createCssTag(newsDetail.getCss());
         final String js = HtmlUtil.createJsTag(newsDetail.getJs());
-        return createHtmlData(newsDetail.getBody(), css, js);
+        final String body = handleHtml(newsDetail.getBody(), isNight).toString();
+        return createHtmlData(body, css, js);
     }
 
     public static StringBuffer handleHtml(String body,boolean isNight) {
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append("<html><head>" +
-                "<meta name=\"viewport\" content=\"width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no\" />\n" +
-                "<style>\n" +
-                "img{max-width:100%;display:block;}\n" +
-                "</style>" +
-                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/detail.css\" >" +
-                "</head>");
+        stringBuffer.append("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"css/detail.css\" ></head>");
         stringBuffer.append(isNight ? "<body class=\"night\">" : "<body>");
         stringBuffer.append(body);
         stringBuffer.append("</body></html>");
