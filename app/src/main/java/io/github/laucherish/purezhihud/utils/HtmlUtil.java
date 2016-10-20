@@ -96,7 +96,13 @@ public class HtmlUtil {
 
     public static StringBuffer handleHtml(String body,boolean isNight) {
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"css/detail.css\" ></head>");
+        stringBuffer.append("<html><head>" +
+                "<meta name=\"viewport\" content=\"width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no\" />\n" +
+                "<style>\n" +
+                "img{max-width:100%;display:block;}\n" +
+                "</style>" +
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/detail.css\" >" +
+                "</head>");
         stringBuffer.append(isNight ? "<body class=\"night\">" : "<body>");
         stringBuffer.append(body);
         stringBuffer.append("</body></html>");
