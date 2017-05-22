@@ -77,8 +77,10 @@ public class HtmlUtil {
      * @param js   string
      * @return string
      */
-    private static String createHtmlData(String html, String css, String js) {
-        return css.concat(HIDE_HEADER_STYLE).concat(html).concat(js);
+    private static String createHtmlData(String html, String css, String js, boolean isNight) {
+        return css.concat(HIDE_HEADER_STYLE).concat(js)
+                .concat(isNight ? "<body class=\"night\">" : "<body>")
+                .concat(html).concat("</body>");
     }
 
     /**
@@ -91,8 +93,7 @@ public class HtmlUtil {
     public static String createHtmlData(NewsDetail newsDetail, boolean isNight) {
         final String css = HtmlUtil.createCssTag(newsDetail.getCss());
         final String js = HtmlUtil.createJsTag(newsDetail.getJs());
-        final String body = handleHtml(newsDetail.getBody(), isNight).toString();
-        return createHtmlData(body, css, js);
+        return createHtmlData(newsDetail.getBody(), css, js, isNight);
     }
 
     public static StringBuffer handleHtml(String body,boolean isNight) {
