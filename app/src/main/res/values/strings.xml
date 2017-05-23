@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">纯净日报</string>
+    <string name="app_name">简洁日报</string>
     <string name="no_news">没有内容，请重试</string>
     <string name="load_fail">加载失败，请重试</string>
     <string name="load_more_fail">加载更多失败，请重试</string>
@@ -26,5 +26,6 @@
     <string name="about_function_list">* 日报列表显示\n* 日报详情显示\n* 错误界面处理\n* 上拉加载更多\n* 已读内容标记\n* 已读内容缓存\n* 离线下载\n* 滑动返回\n* 分享功能\n* 夜间模式</string>
     <string name="about">关于</string>
     <string name="about_version">1.0</string>
+    <string name="ad_flag">广告</string>
 
 </resources>

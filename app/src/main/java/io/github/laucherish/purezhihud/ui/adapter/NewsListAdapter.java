@@ -32,6 +32,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
 
     private static final int ITEM_NEWS = 0;
     private static final int ITEM_NEWS_DATE = 1;
+    public static final int AD_POSITION = 3;
 
     private Context mContext;
     private List<News> mNewsList;
@@ -76,8 +77,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         }
         if (holder instanceof NewsDateViewHolder) {
             NewsDateViewHolder dateHolder = (NewsDateViewHolder) holder;
-            String dateFormat = null;
-            dateFormat = DateUtil.formatDate(news.getDate());
+            String dateFormat = DateUtil.formatDate(news.getDate());
             dateHolder.mTvNewsDate.setText(dateFormat);
             if (!isNight) {
                 dateHolder.mTvNewsDate.setTextColor(ContextCompat.getColor(mContext, R.color.textColorSecond_Day));
@@ -120,6 +120,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         if (isAnim) {
             startAnimator(holder.mCvItem, position);
         }
+//        holder.mTvAdFlag.setVisibility(news.isAd() ? View.VISIBLE : View.GONE);
     }
 
     @NonNull
@@ -127,19 +128,27 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!news.isRead()) {
-                    news.setRead(true);
-                    holder.mTvTitle.setTextColor(ContextCompat.getColor(mContext, R.color.color_read));
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            newDao.insertReadNew(news.getId() + "");
-                        }
-                    }).start();
+                if (news.isAd()) {
+                    news.getAdInfo().onClick(v);
+                } else {
+                    gotoDetail(news, holder);
                 }
-                NewsDetailActivity.start(mContext, news);
             }
         };
+    }
+
+    private void gotoDetail(final News news, NewsViewHolder holder) {
+        if (!news.isRead()) {
+            news.setRead(true);
+            holder.mTvTitle.setTextColor(ContextCompat.getColor(mContext, R.color.color_read));
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    newDao.insertReadNew(news.getId() + "");
+                }
+            }).start();
+        }
+        NewsDetailActivity.start(mContext, news);
     }
 
     @Override
@@ -174,6 +183,16 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         }
     }
 
+    public void addAdData(News news) {
+        if (news != null) {
+            int maxIndex = mNewsList.size() - 1;
+            int insertIndex = AD_POSITION < maxIndex ? 3 : maxIndex;
+            news.setDate(mNewsList.get(insertIndex).getDate());
+            mNewsList.add(insertIndex, news);
+            notifyDataSetChanged();
+        }
+    }
+
     public void setAnim(boolean anim) {
         isAnim = anim;
     }
@@ -195,6 +214,9 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
 
         @Bind(R.id.tv_title)
         TextView mTvTitle;
+
+        @Bind(R.id.tv_ad_flag)
+        TextView mTvAdFlag;
 
         public NewsViewHolder(View itemView) {
             super(itemView);

@@ -3,6 +3,8 @@ package io.github.laucherish.purezhihud.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.kyview.natives.NativeAdInfo;
+
 import java.util.List;
 
 /**
@@ -16,6 +18,8 @@ public class News implements Parcelable {
     private List<String> images;
     private boolean isRead = false;
     private String date;
+    private boolean isAd;
+    private NativeAdInfo adInfo;
 
     public String getDate() {
         return date;
@@ -73,6 +77,22 @@ public class News implements Parcelable {
         isRead = read;
     }
 
+    public boolean isAd() {
+        return isAd;
+    }
+
+    public void setAd(boolean ad) {
+        isAd = ad;
+    }
+
+    public NativeAdInfo getAdInfo() {
+        return adInfo;
+    }
+
+    public void setAdInfo(NativeAdInfo adInfo) {
+        this.adInfo = adInfo;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -109,4 +129,5 @@ public class News implements Parcelable {
             return new News[size];
         }
     };
+
 }

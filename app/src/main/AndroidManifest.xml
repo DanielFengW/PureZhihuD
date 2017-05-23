@@ -1,12 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.github.laucherish.purezhihud">
+          package="io.github.laucherish.purezhihud">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <!-- Adsmar移动必须 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES"/>
+
+    <!-- 磨盘必须 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <!-- 安沃、力美所需的权限 -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <!-- InMobi、易传媒所需的权限 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
+    <!-- InMobi、力美所需的权限 -->
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+
+    <!-- -易传媒 所需的权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
+
+    <!-- Ader、smaato可选权限 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+
+    <!-- Ader、智游汇(果合)权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+
+    <!-- Ader、力美所需权限 -->
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+
+    <!-- 有米 所需的权限 -->
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+
+    <!-- Ader、万普、指点、力美所需权限 -->
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+
+    <!-- 百度 所需的权限 -->
+    <uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS"/>
+    <!-- smaato 所需的权限 -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION"/>
+
 
     <application
         android:name=".App"
@@ -15,15 +64,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/DayTheme">
-        <activity android:name=".ui.activity.NewsListActivity">
+        <activity android:name=".ui.activity.SpreadScreenActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.NewsDetailActivity" />
-        <activity android:name=".ui.activity.AboutActivity" />
+        <activity android:name=".ui.activity.NewsListActivity"/>
+        <activity android:name=".ui.activity.NewsDetailActivity"/>
+        <activity android:name=".ui.activity.AboutActivity"/>
 
         <!--umeng-->
         <meta-data
@@ -31,7 +80,19 @@
             android:value="56f38a8fe0f55a42fa001ca2"></meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="Baidu" />
+            android:value="Baidu"/>
+
+
+        <!-- Must declare it for Adivew SDK -->
+        <activity
+            android:name="com.kuaiyou.video.vast.activity.VASTAdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="landscape"/>
+        <activity android:name="com.kyview.AdviewWebView"/>
+        <activity android:name="com.kyview.AdActivity"/>
+        <service android:name="com.kyview.DownloadService"/>
+
 
     </application>
 

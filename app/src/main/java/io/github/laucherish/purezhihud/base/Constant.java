@@ -13,4 +13,10 @@ public class Constant {
     //对应Style
     public static final int RESOURCES_DAYTHEME = R.style.DayTheme;
     public static final int RESOURCES_NIGHTTHEME = R.style.NightTheme;
+
+    //Adview
+    public static final String key1 = "SDK20161528030628a8ne5j1yy78czub";
+    public static final String keySet[] = new String[] { key1 };
+
+
 }

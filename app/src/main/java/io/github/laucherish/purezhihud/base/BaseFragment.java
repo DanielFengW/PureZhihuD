@@ -1,6 +1,7 @@
 package io.github.laucherish.purezhihud.base;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,11 +18,13 @@ public abstract class BaseFragment extends Fragment {
 
     public static final String TAG = BaseFragment.class.getSimpleName();
     protected View mRootView;
+    protected Activity mActivity;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = inflater.inflate(getLayoutId(), container, false);
+        mActivity = getActivity();
         return mRootView;
     }
 

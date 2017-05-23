@@ -10,7 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.kyview.interfaces.AdViewNativeListener;
+import com.kyview.manager.AdViewNativeManager;
+import com.kyview.natives.NativeAdInfo;
 import com.yalantis.phoenix.PullToRefreshView;
 
 import java.util.ArrayList;
@@ -19,6 +23,7 @@ import java.util.List;
 import butterknife.Bind;
 import io.github.laucherish.purezhihud.R;
 import io.github.laucherish.purezhihud.base.BaseFragment;
+import io.github.laucherish.purezhihud.base.Constant;
 import io.github.laucherish.purezhihud.bean.News;
 import io.github.laucherish.purezhihud.bean.NewsDetail;
 import io.github.laucherish.purezhihud.bean.NewsList;
@@ -83,16 +88,48 @@ public class NewsListFragment extends BaseFragment implements PullToRefreshView.
         scroll = getArguments().getInt(EXTRA_SCROLL);
         curDate = getArguments().getString(EXTRA_CURDATE);
         init();
+
         if (mNewsListAdapter.getmNewsList().size() == 0) {
             loadLatestNews();
         }
+    }
+
+    private void requestAdInfo() {
+        AdViewNativeManager.getInstance(mActivity).requestAd(mActivity,
+                Constant.key1, 2, new AdViewNativeListener() {
+                    @Override
+                    public void onAdFailed(String s) {
+                    }
+
+                    @Override
+                    public void onAdRecieved(String s, ArrayList arrayList) {
+                        Toast.makeText(mActivity, "收到" + arrayList.size() + "条广告", Toast.LENGTH_SHORT).show();
+                        for (int i = 0; i < arrayList.size(); i++) {
+                            NativeAdInfo nativeAdInfo = (NativeAdInfo) arrayList.get(i);
+                            nativeAdInfo.onDisplay(new View(mActivity));
+                            List<String> images = new ArrayList<>();
+                            images.add(nativeAdInfo.getIconUrl());
+
+                            News news = new News();
+                            news.setTitle(nativeAdInfo.getTitle()+":"+nativeAdInfo.getDescription());
+                            news.setImages(images);
+                            news.setAd(true);
+                            news.setAdInfo(nativeAdInfo);
+                            mNewsListAdapter.addAdData(news);
+                        }
+                    }
+
+                    @Override
+                    public void onAdStatusChanged(String s, int i) {
+                    }
+                });
     }
 
     public static NewsListFragment newInstance(int position, int scroll, NewsListAdapter adapter, String curDate) {
         Bundle bundle = new Bundle();
         bundle.putInt(EXTRA_POSITION, position);
         bundle.putInt(EXTRA_SCROLL, scroll);
-        bundle.putString(EXTRA_CURDATE,curDate);
+        bundle.putString(EXTRA_CURDATE, curDate);
         NewsListFragment fragment = new NewsListFragment();
         fragment.setArguments(bundle);
         fragment.mExtraAdapter = adapter;
@@ -224,6 +261,7 @@ public class NewsListFragment extends BaseFragment implements PullToRefreshView.
                         if (newsList.getStories().size() < 8) {
                             loadBeforeNews(curDate);
                         }
+                        requestAdInfo();
 
                     }
                 }, new Action1<Throwable>() {
@@ -330,12 +368,11 @@ public class NewsListFragment extends BaseFragment implements PullToRefreshView.
 //
 //        return imgList;
 //    }
-
     public void setmOnRecyclerViewCreated(OnRecyclerViewCreated mOnRecyclerViewCreated) {
         this.mOnRecyclerViewCreated = mOnRecyclerViewCreated;
     }
 
-    public String getCurDate(){
+    public String getCurDate() {
         return curDate;
     }
 

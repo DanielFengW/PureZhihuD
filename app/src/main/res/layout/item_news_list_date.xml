@@ -50,15 +50,25 @@
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="60dp"
                 android:layout_marginLeft="@dimen/spacing_medium"
                 android:layout_toRightOf="@id/iv_news"
                 android:lineSpacingExtra="2dp"
-                android:maxLines="3"
+                android:maxLines="2"
                 android:padding="3dp"
                 android:textColor="?attr/textColorFirst"
                 android:textSize="18sp"
                 tools:text="新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题,不忘初心,方得始终." />
+
+            <TextView
+                android:id="@+id/tv_ad_flag"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_width="20dp"
+                android:visibility="gone"
+                android:textSize="9dp"
+                android:layout_height="10dp"
+                android:text="@string/ad_flag"/>
 
         </RelativeLayout>
 

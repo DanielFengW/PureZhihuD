@@ -13,15 +13,20 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.kyview.interfaces.AdViewBannerListener;
+import com.kyview.manager.AdViewBannerManager;
 
 import butterknife.Bind;
 import io.github.laucherish.purezhihud.R;
 import io.github.laucherish.purezhihud.base.BaseFragment;
+import io.github.laucherish.purezhihud.base.Constant;
 import io.github.laucherish.purezhihud.bean.News;
 import io.github.laucherish.purezhihud.bean.NewsDetail;
 import io.github.laucherish.purezhihud.network.manager.RetrofitManager;
@@ -60,6 +65,8 @@ public class NewsDetailFragment extends BaseFragment {
     TextView mTvLoadError;
     @Bind(R.id.pb_loading)
     ContentLoadingProgressBar mPbLoading;
+    @Bind(R.id.adLayout)
+    LinearLayout mAdLayout;
 
     private News mNews;
 
@@ -87,7 +94,7 @@ public class NewsDetailFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_detail,menu);
+        inflater.inflate(R.menu.menu_detail, menu);
     }
 
     @Override
@@ -115,6 +122,45 @@ public class NewsDetailFragment extends BaseFragment {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         mCollapsingToolbarLayout.setTitleEnabled(true);
+        addAdViewBanner(Constant.key1);
+    }
+
+    private void addAdViewBanner(String key) {
+        View adView = AdViewBannerManager.getInstance(mActivity).getAdViewLayout(mActivity, key);
+        if (null != adView) {
+            ViewGroup parent = (ViewGroup) adView.getParent();
+            if (parent != null)
+                parent.removeAllViews();
+        }
+        AdViewBannerManager.getInstance(mActivity).requestAd(mActivity, key, new AdViewBannerListener() {
+            @Override
+            public void onAdClick(String s) {
+                L.i(s);
+            }
+
+            @Override
+            public void onAdDisplay(String s) {
+                L.i(s);
+            }
+
+            @Override
+            public void onAdClose(String s) {
+                L.i(s);
+            }
+
+            @Override
+            public void onAdFailed(String s) {
+                L.i(s);
+            }
+
+            @Override
+            public void onAdReady(String s) {
+                L.i(s);
+            }
+        });
+        adView.setTag(key);
+        mAdLayout.addView(adView);
+        mAdLayout.invalidate();
     }
 
     private void loadData() {
@@ -154,7 +200,7 @@ public class NewsDetailFragment extends BaseFragment {
                     @Override
                     public void call(Throwable throwable) {
                         hideProgress();
-                        L.e(throwable,"Load news detail error");
+                        L.e(throwable, "Load news detail error");
                         mTvLoadError.setVisibility(View.VISIBLE);
                         mTvLoadEmpty.setVisibility(View.GONE);
                     }
